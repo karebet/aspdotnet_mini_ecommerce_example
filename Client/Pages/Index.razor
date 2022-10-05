@@ -1,0 +1,97 @@
+﻿@page "/"
+@using ecommerce_mini.Shared
+@inject HttpClient Http
+<PageTitle>Index</PageTitle>
+<MudPaper Elevation="0" Class="px-4 py-2 bg-white w-100">
+    <div class="d-flex flex-grow-1 gap-1">
+        <div class="flex-1">
+            <MudTextField @bind-Value="Weight" Placeholder="Cari..."  Margin="Margin.Dense" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Outlined.Search" Class="m-0" />
+        </div>
+        <div class="flex-shrink-0 m-0 p-0" Width="63px">
+            <button class="btn pink text-white" style="height:100%"><MudIcon Icon="@Icons.Filled.FilterList"></MudIcon></button>
+        </div>
+    </div>
+</MudPaper>
+<MudPaper Elevation="0" Class="px-4 py-2 bg-white w-100">
+    <MudCarousel Class="mud-width-full rounded" Style="height:150px;"  ShowArrows="false" ShowBullets="true" EnableSwipeGesture="true" AutoCycle="true" TData="object">
+        <MudCarouselItem Transition="transition">
+            <MudImage Src="img/benner-sepatu-1.jpg" Elevation="25" Class="rounded w-100"/>
+        </MudCarouselItem>
+        <MudCarouselItem Transition="transition">
+            <MudImage Src="img/benner-sepatu-2.jpg" Elevation="25" Class="rounded w-100"/>
+        </MudCarouselItem>
+    </MudCarousel>
+</MudPaper>
+
+
+<MudPaper Class="d-flex flex-nowrap gap-3 overflow-auto py-3" Elevation="0">
+    <div class="flex-none my-0 ml-4 mr-0 p-0" style="width:150px">
+        <button class="btn bg-white pink-text  w-100 shadow" style="height:100%"><MudIcon Icon="@Icons.Rounded.BorderAll"></MudIcon> Semua</button>
+    </div>
+    <div class="flex-none m-0 p-0 bg-light "  style="width:150px">
+        <button class="btn bg-white shadow w-100" style="height:100%">
+            <MudImage Src="img/kategori/kategori-sepatu.jpg" Elevation="0" Class="rounded-lg" Width="30" Height="30"/>
+            Sepatu
+        </button>
+    </div>
+    <div class="flex-none m-0 p-0 bg-light "  style="width:150px">
+        <button class="btn bg-white shadow w-100" style="height:100%">
+            <MudImage Src="img/kategori/kategori-jam.jpg" Elevation="0" Class="rounded-lg" Width="30" Height="30"/>
+            Jam
+        </button>
+    </div>
+    <div class="flex-none m-0 p-0 bg-light "  style="width:150px">
+        <button class="btn bg-white shadow w-100" style="height:100%">
+            <MudImage Src="img/kategori/kategori-kaos.jpg" Elevation="0" Class="rounded-lg" Width="30" Height="30"/>
+            Kaos
+        </button>
+    </div>
+</MudPaper>
+<MudPaper Elevation="0" Class="px-4 py-2 bg-white w-100 ">
+    <MudGrid Spacing="1" Justify="Justify.Center">
+        
+        
+    
+    @if (Items == null)
+{
+        <p><em>Tunggu dulu</em></p>
+    }
+    else
+    {
+        @foreach (var forecast in Items)
+            {
+                
+        <MudItem xs="6" >
+            <MudCard >
+                <MudCardMedia Image="img/produk/produk-1.jpg" Class="w-100" Height="150"/>
+                <MudCardContent>
+                    <MudText Typo="Typo.body2" Class="text-truncate">This photo asdsadasd dsadas das dsad sda</MudText>
+                    <div class="row">
+                        <div class="col-8">
+                            <b>Rp 4.000</b>
+                        </div>
+                    </div>
+                </MudCardContent>
+                
+            </MudCard>
+        </MudItem>
+            
+
+
+            }
+    }
+    </MudGrid>
+</MudPaper>    
+
+@code {
+    private Transition transition = Transition.Slide;
+
+    string Weight;
+
+    private WeatherForecast[]? Items;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Items = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
+    }
+}
